@@ -53,26 +53,33 @@ const initializeGame = () => {
   guessMessage.textContent = "Guess the picture!";
 };
 
-// Function to dynamically set grid size based on image dimensions
+// Function to dynamically set grid size and cell dimensions based on image dimensions
 const loadImageAndSetGrid = () => {
   const img = new Image();
   img.src = imageUrl as string;
   img.onload = () => {
-    // Calculate number of rows and columns based on image dimensions
     const aspectRatio = img.width / img.height;
-    const totalSquares = 36; // Adjust this to control the granularity of the grid
+    const containerWidth = 1000; // Fixed width for consistent layout
+    const containerHeight = containerWidth / aspectRatio;
+    gridContainer.style.width = `${containerWidth}px`;
+    gridContainer.style.height = `${containerHeight}px`;
+
+    const totalSquares = 36; // Number of squares in the grid
     gridSize.rows = Math.round(Math.sqrt(totalSquares / aspectRatio));
     gridSize.cols = Math.round(gridSize.rows * aspectRatio);
 
     gridContainer.style.gridTemplateColumns = `repeat(${gridSize.cols}, 1fr)`;
     gridContainer.style.gridTemplateRows = `repeat(${gridSize.rows}, 1fr)`;
 
-    createOverlaySquares();
+    createOverlaySquares(containerWidth, containerHeight);
   };
 };
 
-// Function to create overlay squares
-const createOverlaySquares = () => {
+// Function to create overlay squares with dynamic sizing
+const createOverlaySquares = (containerWidth: number, containerHeight: number) => {
+  const squareWidth = containerWidth / gridSize.cols;
+  const squareHeight = containerHeight / gridSize.rows;
+
   for (let row = 0; row < gridSize.rows; row++) {
     const rowOverlays: HTMLDivElement[] = [];
     for (let col = 0; col < gridSize.cols; col++) {
@@ -80,6 +87,10 @@ const createOverlaySquares = () => {
       overlay.classList.add("overlay-square");
       overlay.dataset.row = row.toString();
       overlay.dataset.col = col.toString();
+
+      // Set overlay square dimensions
+      overlay.style.width = `${squareWidth}px`;
+      overlay.style.height = `${squareHeight}px`;
 
       overlay.addEventListener("click", () => revealSquare(row, col));
       gridContainer.appendChild(overlay);

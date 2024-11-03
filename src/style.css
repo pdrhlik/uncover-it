@@ -16,15 +16,11 @@ body {
 #grid-container {
   position: relative;
   display: grid;
-  width: 1000px;
-  height: auto;
   background-size: cover;
   margin-top: 10px;
 }
 
 .overlay-square {
-  width: 100%;
-  height: 30px;
   background-color: #444; /* Solid color to hide the image */
   border: 1px solid #333; /* Thin border to create a grid effect */
   transition: visibility 0.3s;
