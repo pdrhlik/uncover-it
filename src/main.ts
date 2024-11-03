@@ -11,7 +11,6 @@ let imageUrl: string | null = null;
 let gridSize = { rows: 6, cols: 6 };
 let overlaySquares: HTMLDivElement[][] = [];
 let revealCount = 0;
-let isGameFinished = false;
 
 // Function to save game state to localStorage
 const saveGameState = () => {
@@ -160,7 +159,6 @@ const revealAllSquares = () => {
 // Function that sets the game as finished and clear the local storage
 const finishGame = () => {
   guessMessage.textContent = "All cells have been revealed!";
-  isGameFinished = true;
   localStorage.clear();
   setupButtons.style.visibility = "visible";
   gameButtons.style.visibility = "hidden";
