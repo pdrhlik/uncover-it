@@ -19,6 +19,9 @@ The goal is to guess the hidden image by revealing squares, one at a time. The g
 - Choose a square to reveal, or click "Reveal by Random" to let the game reveal a random square.
 - Try to guess the image with as few revealed squares as possible!
 
+## Demo
+You can try the game online here: [https://uncoverit.patrio.dev](https://uncoverit.patrio.dev)
+
 # Develop or play locally
 Clone this repository:
 ```bash
