@@ -9,10 +9,18 @@
 <body>
   <div id="game-container">
     <div id="grid-container"></div>
-    <p id="guess-message"></p>
-    <input type="file" id="file-input" accept="image/*" />
-    <button id="start-game">Start Game</button>
-    <button id="random-reveal">Reveal Random Square</button>
+    <p id="guess-message">Upload a picture to Start a game!</p>
+    <hr>
+
+    <div id="setup-buttons">
+      <input type="file" id="file-input" accept="image/*" />
+      <button id="start-game">Start Game</button>
+    </div>
+
+    <div id="game-buttons" style="visibility: hidden; margin-bottom: 50px;">
+      <button id="random-reveal">Reveal Random Square</button>
+      <button id="reveal-all">Reveal All Squares</button>
+    </div>
   </div>
   <script type="module" src="/src/main.ts"></script>
 </body>

@@ -1,13 +1,17 @@
 const fileInput = document.getElementById("file-input") as HTMLInputElement;
 const startButton = document.getElementById("start-game") as HTMLButtonElement;
 const randomRevealButton = document.getElementById("random-reveal") as HTMLButtonElement;
+const revealAllButton = document.getElementById("reveal-all") as HTMLButtonElement;
 const gridContainer = document.getElementById("grid-container") as HTMLDivElement;
 const guessMessage = document.getElementById("guess-message") as HTMLParagraphElement;
+const setupButtons = document.getElementById("setup-buttons") as HTMLDivElement;
+const gameButtons = document.getElementById("game-buttons") as HTMLDivElement;
 
 let imageUrl: string | null = null;
 let gridSize = { rows: 6, cols: 6 };
 let overlaySquares: HTMLDivElement[][] = [];
 let revealCount = 0;
+let isGameFinished = false;
 
 // Function to save game state to localStorage
 const saveGameState = () => {
@@ -29,13 +33,15 @@ const loadGameState = () => {
     revealCount = revealedState.flat().reduce((sum: number, value: number) => sum + (value ? 1 : 0), 0);
     gridSize = savedGridSize || gridSize;
     initializeGame(revealedState);
+    setupButtons.style.visibility = "hidden";
+    gameButtons.style.visibility = "visible";
     guessMessage.textContent = `Revealed cells: ${revealCount}`;
   }
 };
 
 // Function to initialize the game
 const initializeGame = (revealedState?: boolean[][]) => {
-  if (!imageUrl) return;
+  if (!imageUrl) return false;
 
   gridContainer.innerHTML = "";
   overlaySquares = [];
@@ -48,6 +54,8 @@ const initializeGame = (revealedState?: boolean[][]) => {
   loadImageAndSetGrid(revealedState);
 
   guessMessage.textContent = "Guess the picture!";
+
+  return true;
 };
 
 // Function to dynamically set grid size based on image dimensions
@@ -129,9 +137,33 @@ const revealRandomSquare = () => {
     const randomIndex = Math.floor(Math.random() * unrevealedSquares.length);
     const [randomRow, randomCol] = unrevealedSquares[randomIndex];
     revealSquare(randomRow, randomCol);
+
+    if (unrevealedSquares.length == 1) {
+      finishGame();
+    }
   } else {
-    guessMessage.textContent = "All cells have been revealed!";
+    finishGame();
   }
+};
+
+// Function to reveal all squares and finish the game
+const revealAllSquares = () => {
+  for (let row = 0; row < gridSize.rows; row++) {
+    for (let col = 0; col < gridSize.cols; col++) {
+      revealSquare(row, col);
+    }
+  }
+
+  finishGame();
+};
+
+// Function that sets the game as finished and clear the local storage
+const finishGame = () => {
+  guessMessage.textContent = "All cells have been revealed!";
+  isGameFinished = true;
+  localStorage.clear();
+  setupButtons.style.visibility = "visible";
+  gameButtons.style.visibility = "hidden";
 };
 
 // Handle file input
@@ -150,12 +182,20 @@ fileInput.addEventListener("change", (event) => {
 
 // Start game on button click
 startButton.addEventListener("click", () => {
-  initializeGame();
-  saveGameState();
+  if (initializeGame()) {
+    saveGameState();
+    setupButtons.style.visibility = "hidden";
+    gameButtons.style.visibility = "visible";
+  } else {
+    alert("Upload a picture first.");
+  }
 });
 
 // Random reveal button click
 randomRevealButton.addEventListener("click", revealRandomSquare);
+
+// Reveal all squares button click
+revealAllButton.addEventListener("click", revealAllSquares);
 
 // Load the game state on page load
 window.addEventListener("load", loadGameState);
