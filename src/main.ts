@@ -1,3 +1,9 @@
+import { registerSW } from "virtual:pwa-register";
+
+if ("serviceWorker" in navigator) {
+  registerSW();
+}
+
 const fileInput = document.getElementById("file-input") as HTMLInputElement;
 const startButton = document.getElementById("start-game") as HTMLButtonElement;
 const randomRevealButton = document.getElementById("random-reveal") as HTMLButtonElement;
