@@ -1,7 +1,20 @@
 import { registerSW } from "virtual:pwa-register";
 
 if ("serviceWorker" in navigator) {
-  registerSW();
+  registerSW({
+    onOfflineReady() {
+      console.log("offline ready");
+    },
+    onNeedRefresh() {
+      console.log("need refresh");
+    },
+    onRegisteredSW() {
+      console.log("registered SW");
+    },
+    onRegisterError(error) {
+      console.log("Register error", error);
+    }
+  });
 }
 
 const fileInput = document.getElementById("file-input") as HTMLInputElement;
