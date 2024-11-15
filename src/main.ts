@@ -84,6 +84,8 @@ const createOverlaySquares = (containerWidth: number, containerHeight: number, r
   const squareWidth = containerWidth / gridSize.cols;
   const squareHeight = containerHeight / gridSize.rows;
 
+  let i = 1;
+
   for (let row = 0; row < gridSize.rows; row++) {
     const rowOverlays: HTMLDivElement[] = [];
     for (let col = 0; col < gridSize.cols; col++) {
@@ -95,6 +97,8 @@ const createOverlaySquares = (containerWidth: number, containerHeight: number, r
       overlay.style.width = `${squareWidth}px`;
       overlay.style.height = `${squareHeight}px`;
 
+      overlay.textContent = i.toString();
+
       // Apply saved visibility state if available
       if (revealedState && revealedState[row] && revealedState[row][col]) {
         overlay.style.visibility = "hidden";
@@ -103,6 +107,7 @@ const createOverlaySquares = (containerWidth: number, containerHeight: number, r
       overlay.addEventListener("click", () => revealSquare(row, col));
       gridContainer.appendChild(overlay);
       rowOverlays.push(overlay);
+      i++;
     }
     overlaySquares.push(rowOverlays);
   }

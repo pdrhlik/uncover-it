@@ -2,7 +2,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   margin: 0;
   font-family: Arial, sans-serif;
 }
@@ -21,8 +20,20 @@ body {
 }
 
 .overlay-square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #444;
   border: 1px solid #333;
+  color: #fff;
+  text-align: center;
+  font-size: 3em;
+}
+
+.overlay-square:hover {
+  cursor: pointer;
+  color: #fece54;
+  background-color: #000;
 }
 
 button {
